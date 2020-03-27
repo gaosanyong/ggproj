@@ -16,20 +16,22 @@ function game() {
     local target=$(ls -1q | wc -l)
 
     echo "How many files are in current directory?"
+    echo -n "Your guess: "
     read guess
 
     while [[ $guess -ne $target ]]
     do
         if [[ $guess -gt $target ]]
         then
-            echo "Too high; please try again"
+            echo "Too high"
         else
-            echo "Too low; please try again"
+            echo "Too low"
         fi
+        echo -n "Your guess: " 
         read guess
     done
-
-    echo "Congratulations!"
+    
+    echo "Congratulations! You got it."
 }
 
 game $@
