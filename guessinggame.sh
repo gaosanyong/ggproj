@@ -1,37 +1,33 @@
 #!/usr/bin/env bash
 #guessinggame.sh
 
-###########################################################
-# Interactively guess number of files in current directory
-# Globals:
-#   None
-# Arguments: 
-#   None
-# Outputs:
-#   Message of correct/incorrect guess
-# Return:
-#   None
-###########################################################
-function game() {
-    local target=$(ls -1q | wc -l)
-
-    echo "How many files are in current directory?"
+function take_a_guess() {
     echo -n "Your guess: "
     read guess
-
-    while [[ $guess -ne $target ]]
-    do
-        if [[ $guess -gt $target ]]
-        then
-            echo "Too high"
-        else
-            echo "Too low"
-        fi
-        echo -n "Your guess: " 
-        read guess
-    done
     
-    echo "Congratulations! You got it."
+    #sanity check for valid number
+    while [[ ! $guess =~ ^[0-9]+$ ]] 
+    do 
+        echo -n "Please enter a valid number: "
+        read guess 
+    done
 }
 
-game $@
+
+target=$(ls -A | wc -l) #include hidden files
+
+echo "How many files are in current directory?"
+take_a_guess
+
+while [[ $guess -ne $target ]]
+do
+    if [[ $guess -gt $target ]]
+    then
+        echo "Too high"
+    else
+        echo "Too low"
+    fi
+    take_a_guess
+done
+
+echo "Congratulations!"
