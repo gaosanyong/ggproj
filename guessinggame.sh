@@ -6,9 +6,17 @@ function take_a_guess() {
     read guess
     
     #sanity check for valid number
-    while [[ ! $guess =~ ^[0-9]+$ ]] 
+    while true
     do 
-        echo -n "Please enter a valid number: "
+        if [[ ! $guess =~ ^[1-9][0-9]*$ ]] 
+        then
+            echo -n "Please enter a valid number: "
+        elif [[ $guess -lt 0 ]] 
+        then
+            echo -n "Integer overflow! Try a smaller number: "
+        else
+            break
+        fi  
         read guess 
     done
 }
